@@ -1,5 +1,9 @@
+from dotenv import load_dotenv
 import requests
 import xml.etree.ElementTree as ET
+from os import environ
+
+load_dotenv()
 
 def get_prefix_as_dict(doi):
     prefix = {}
@@ -13,8 +17,17 @@ def write_to_xml(filename, data):
 def get_publisher(doi, filename):
     endpoint = 'http://doi.crossref.org/getPrefixPublisher/'
     prefix = get_prefix_as_dict(doi)
-    response = requests.get(endpoint, prefix)
-    write_to_xml(filename, response.text)
+    header = {}
+    header['email'] = environ.get('MY_EMAIL')
+    header['user'] = environ.get('USER')
+    print(header, '<--- header var')
+    print(environ.keys(), '<--- environ keys')
+    response = requests.get(endpoint, params=prefix, headers=header)
+    print(response.headers, '<---- response headers')
+    if response.status_code == 200:
+        write_to_xml(filename, response.text)
+    else:
+        print(f'Unable to get publisher. Received response status {response.status_code}')
 
 
 
