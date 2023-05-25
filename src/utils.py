@@ -20,10 +20,9 @@ def get_publisher(doi, filename):
     header = {}
     header['email'] = environ.get('MY_EMAIL')
     header['user'] = environ.get('USER')
-    print(header, '<--- header var')
-    print(environ.keys(), '<--- environ keys')
+
     response = requests.get(endpoint, params=prefix, headers=header)
-    print(response.headers, '<---- response headers')
+
     if response.status_code == 200:
         write_to_xml(filename, response.text)
     else:
