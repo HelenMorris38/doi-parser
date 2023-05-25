@@ -25,6 +25,10 @@ def get_publisher(doi, filename):
 
     if response.status_code == 200:
         write_to_xml(filename, response.text)
+        tree = ET.parse(filename)
+        root = tree.getroot()
+        return root.find('./publisher/publisher_name').text
+
     else:
         print(f'Unable to get publisher. Received response status {response.status_code}')
 
