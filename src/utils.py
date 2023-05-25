@@ -1,2 +1,2 @@
 def get_prefix(doi):
-    pass
+    return doi.split('/')[0]
