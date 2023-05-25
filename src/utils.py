@@ -1,18 +1,19 @@
 import requests
 import xml.etree.ElementTree as ET
 
-def get_prefix(doi):
-    return doi.split('/')[0]
+def get_prefix_as_dict(doi):
+    prefix = {}
+    prefix['prefix'] = doi.split('/')[0]
+    return prefix
 
 def write_to_xml(filename, data):
     with open(filename, 'w') as f:
         f.write(data)
 
-
 def get_publisher(doi, filename):
     endpoint = 'http://doi.crossref.org/getPrefixPublisher/'
-    prefix = get_prefix(doi)
-    response = requests.get(endpoint, params=prefix)
+    prefix = get_prefix_as_dict(doi)
+    response = requests.get(endpoint, prefix)
     write_to_xml(filename, response.text)
 
 
