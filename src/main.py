@@ -11,5 +11,7 @@ def add_publisher_name(filename):
     """
     doi_df = pd.DataFrame(data=pd.read_csv(filename))
     print(doi_df.head())
+    doi_df['prefix'] = doi_df['DOI'].str.split('/').str[0]
+    print(doi_df.head())
 
 add_publisher_name('dois.csv')
