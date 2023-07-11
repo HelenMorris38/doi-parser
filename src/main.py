@@ -1,12 +1,11 @@
 import pandas as pd
 
 def add_publisher_name(filename):
-    """Takes a csv file with a column named 'DOI'. It parses the doi prefix and returns a new csv file with additional columns: doi_prefix, publisher_name.
+    """Takes a filepath to a csv file. The file must have a column named 'DOI'. It parses the doi prefix and updates the csv file with additional columns: doi_prefix, publisher_name.
 
     Args:
-        filename - a csv file
+        filename - path to csv file
     Returns:
-        A new csv file with additional columns
         Errors - unable to get publisher
     """
     doi_df = pd.DataFrame(data=pd.read_csv(filename))
