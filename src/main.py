@@ -1,6 +1,6 @@
 import pandas as pd
 from os import path
-from src.utils import get_all_publishers
+from src.utils import get_all_publishers, create_publisher_dict
 import json
 
 def add_publisher_name(filename):
@@ -22,6 +22,9 @@ def add_publisher_name(filename):
     with open('publisher_names.json') as f:
         publisher_names = json.load(f)
     
+    publisher_dict = create_publisher_dict(publisher_names)
+
+    print(publisher_dict)
 
 
 add_publisher_name('dois.csv')
