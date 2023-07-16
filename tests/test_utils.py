@@ -74,3 +74,5 @@ def test_create_publisher_dict_returns_correct_val_multiple_prefixes():
         "10.1513" : "American Thoracic Society",
         }
     assert create_publisher_dict(input) == output
+def test_create_publisher_dict_rreturns_empty_dict():
+    assert create_publisher_dict([]) == {}
