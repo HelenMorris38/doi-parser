@@ -39,7 +39,7 @@ def get_all_publishers():
     header = {}
     header['email'] = environ.get('MY_EMAIL')
     header['user'] = environ.get('USER')
-
+    
     response = requests.get(endpoint, params={'prefix': 'all'}, headers=header)
 
     with open('publisher_names.json', 'w') as f:
