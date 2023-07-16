@@ -52,5 +52,16 @@ def tidy_csv(filename):
     doi_df.to_csv(filename)
 
 def create_publisher_dict(data):
-    pass
+    """Transforms publisher names data into a dictionary with key value pairs of prefix and corresponding publisher name. This dict is easier to work with than raw response from api and is used to populate the publisher name column in the csv file.
+    Args:
+    A list of dictionaries (response from api)
+    Returns:
+    A dict with key value pairs of prefix and corresponding publisher name
+    """
+    publisher_dict = {}
+    for prefix in data:
+        for p in prefix['prefixes']:
+            publisher_dict[p] = prefix['name']
+
+    return publisher_dict
 
