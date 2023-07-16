@@ -51,5 +51,6 @@ def tidy_csv(filename):
     doi_df = doi_df.dropna(axis=0)
     doi_df.to_csv(filename)
 
-
+def create_publisher_dict(data):
+    pass
 
