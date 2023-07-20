@@ -45,6 +45,25 @@ def get_all_publishers():
     with open('publisher_names.json', 'w') as f:
         json.dump(response.json(), f, indent=4)
 
+def get_data_cite_publisher(doi):
+    if len(doi) > 3:
+        endpoint = f'https://api.datacite.org/dois/{doi}'
+    
+        response = requests.get(endpoint)
+        data_cite_publisher = []
+        data_cite_publisher.append(doi.split('/')[0]) 
+        print(response.json()['data']['attributes']['publisher'])
+        try:
+            data_cite_publisher.append(response.json()['data']['attributes']['publisher'])
+        except:
+            data_cite_publisher.append('publisher name not found')
+
+        return data_cite_publisher
+    else:
+        return ['', 'publisher name not found']
+
+get_data_cite_publisher('10.15122/isbn.978-2-8124-3374-0.p.0469')
+
 def tidy_csv(filename):
     data = pd.read_csv(filename)
     doi_df = pd.DataFrame(data=data)
