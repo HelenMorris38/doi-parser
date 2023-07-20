@@ -24,7 +24,10 @@ def add_publisher_name(filename):
     
     publisher_dict = create_publisher_dict(publisher_names)
 
-    print(publisher_dict)
+    doi_df['publisher_name'] = doi_df['prefix'].map(publisher_dict)
+
+    print(doi_df.head())
+    print(doi_df[doi_df['publisher_name'].isna()])
 
 
 add_publisher_name('dois.csv')
