@@ -1,6 +1,6 @@
 import pandas as pd
 from os import path
-from src.utils import get_all_publishers, create_publisher_dict
+from src.utils import get_all_publishers, create_publisher_dict, get_data_cite_publisher
 import json
 
 def add_publisher_name(filename):
@@ -27,7 +27,18 @@ def add_publisher_name(filename):
     doi_df['publisher_name'] = doi_df['prefix'].map(publisher_dict)
 
     print(doi_df.head())
-    print(doi_df[doi_df['publisher_name'].isna()])
+    missing_publisher_names_df = doi_df[doi_df['publisher_name'].isna()]
+    print(pd.unique(missing_publisher_names_df['prefix']).tolist())
+    missing_publisher_names_df = missing_publisher_names_df.drop_duplicates(subset=['prefix'])
+    print(missing_publisher_names_df)
+    
+    if len(missing_publisher_names_df.index) > 0:
+        data_cite_pubs_dict = {}
+        for doi in missing_publisher_names_df['DOI']:
+            data_cite_pub = get_data_cite_publisher(doi)
+            data_cite_pubs_dict[data_cite_pub[0]] = data_cite_pub[1]
+        print(data_cite_pubs_dict)
+
 
 
 add_publisher_name('dois.csv')
