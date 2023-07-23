@@ -11,7 +11,7 @@ def add_publisher_name(filename):
     Returns:
         Errors - unable to get publisher
     """
-    doi_df = pd.DataFrame(data=pd.read_csv(filename))
+    doi_df = pd.DataFrame(data=pd.read_csv(filename, usecols=['DOI', 'Publisher']))
     print(doi_df.head())
     doi_df['prefix'] = doi_df['DOI'].str.split('/').str[0]
     print(doi_df.head())
@@ -28,7 +28,7 @@ def add_publisher_name(filename):
 
     print(doi_df.head())
     missing_publisher_names_df = doi_df[doi_df['publisher_name'].isna()]
-    print(pd.unique(missing_publisher_names_df['prefix']).tolist())
+    # print(pd.unique(missing_publisher_names_df['prefix']).tolist())
     missing_publisher_names_df = missing_publisher_names_df.drop_duplicates(subset=['prefix'])
     print(missing_publisher_names_df)
     
@@ -37,8 +37,14 @@ def add_publisher_name(filename):
         for doi in missing_publisher_names_df['DOI']:
             data_cite_pub = get_data_cite_publisher(doi)
             data_cite_pubs_dict[data_cite_pub[0]] = data_cite_pub[1]
-        print(data_cite_pubs_dict)
 
+    
+    missing_publisher_names_df['publisher_name'] = missing_publisher_names_df['prefix'].map(data_cite_pubs_dict)
+
+    # print(missing_publisher_names_df)
+    # still_missing_df = missing_publisher_names_df.loc[missing_publisher_names_df['publisher_name'] == 'publisher name not found']
+    # print(still_missing_df.count())
+    doi_df.fillna(missing_publisher_names_df).to_csv(filename)
 
 
 add_publisher_name('dois.csv')
