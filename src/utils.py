@@ -52,7 +52,6 @@ def get_data_cite_publisher(doi):
         response = requests.get(endpoint)
         data_cite_publisher = []
         data_cite_publisher.append(doi.split('/')[0]) 
-        print(response.json()['data']['attributes']['publisher'])
         try:
             data_cite_publisher.append(response.json()['data']['attributes']['publisher'])
         except:
